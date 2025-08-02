@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дебетовая карта Газпромбанка с кэшбэком</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 22px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #0064c8;
+        }
+
+        .main-section {
+            min-height: calc(100vh - 240px);
+            display: flex;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 40px 20px 40px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .benefits-section {
+            background: #f8f9fa;
+            padding: 0px 0;
+            margin-top: 0;
+        }
+
+        .benefits-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 0px;
+        }
+
+        .left-content {
+            padding-right: 40px;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .highlight {
+            color: #0064c8;
+        }
+
+        .subtitle {
+            font-size: 22px;
+            color: #666;
+            margin-bottom: 60px;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #0064c8, #4a9eff);
+            color: white;
+            padding: 20px 48px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 100, 200, 0.3);
+            margin-bottom: 32px;
+        }
+
+        .benefits-row {
+            display: flex;
+            gap: 0;
+            margin: 0;
+        }
+
+        .benefit-block {
+            flex: 1;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-right: none;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-block:last-child {
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .benefit-block:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 100, 200, 0.1);
+            z-index: 10;
+            position: relative;
+        }
+
+        .benefit-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #0064c8;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .benefit-text {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 100, 200, 0.4);
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.4;
+        }
+
+        .right-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            height: 450px;
+            padding-top: 20px;
+        }
+
+        .card-showcase {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-container {
+            position: relative;
+            width: 400px;
+            height: 260px;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0064c8, #4a9eff);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 100, 200, 0.4);
+            overflow: hidden;
+            transform: rotateY(-15deg) rotateX(10deg);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover {
+            transform: rotateY(-8deg) rotateX(5deg);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0));
+            border-radius: 20px;
+        }
+
+        .card-content {
+            padding: 32px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-logo {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .card-number {
+            color: white;
+            font-size: 22px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            margin: 20px 0;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .card-holder {
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .payment-system {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .float-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 100, 200, 0.06);
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .circle-1 {
+            width: 120px;
+            height: 120px;
+            top: 10%;
+            right: 20%;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .circle-3 {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-40px) scale(1.1);
+                opacity: 0.3;
+            }
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0064c8;
+            padding: 0px 0px 0px 60px;
+        }
+
+        .header-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            padding: 0px 140px 0px 0px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+
+            .left-content {
+                padding-right: 0;
+                order: 2;
+            }
+
+            .right-content {
+                order: 1;
+                height: 400px;
+            }
+
+            .card-container {
+                width: 320px;
+                height: 200px;
+            }
+
+            .card {
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-section {
+                padding: 20px;
+            }
+
+            .benefits-container {
+                padding: 0 20px;
+            }
+
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+
+            .left-content {
+                padding-right: 0;
+                order: 2;
+            }
+
+            .right-content {
+                order: 1;
+                height: 400px;
+                padding-top: 20px;
+            }
+
+            .card-container {
+                width: 320px;
+                height: 200px;
+            }
+
+            .card {
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-section {
+                padding: 20px;
+            }
+
+            .header-container {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            .subtitle {
+                font-size: 20px;
+            }
+
+            .benefits-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .benefit-block {
+                border-right: 1px solid #e5e5e5;
+                border-bottom: none;
+            }
+
+            .benefit-block:last-child {
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .header-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-container">
+            <div class="logo">BestCard</div>
+            <div class="header-text">Лучшие дебетовые карты</div>
+        </div>
+    </div>
+
+    <div class="main-section">
+        <div class="content-wrapper">
+            <div class="left-content">
+                <h1>Дебетовая карта <span class="highlight">Газпромбанка</span></h1>
+
+                <p class="subtitle">Получайте максимальную выгоду от каждой покупки</p>
+
+                <a href="https://www.gazprombank.ru/special/debit-mir/?hide_all_banners=true&block_logo=true" class="cta-button">
+                    Оформить карту
+                </a>
+
+                <div class="disclaimer">
+                    Банк ГПБ (АО). Акция действует с 01.08.2025 по 31.01.2026.<br>
+                    Для физических лиц от 18 лет. Максимальный кэшбэк при поддержании среднего остатка от 30 000 ₽.
+                </div>
+            </div>
+
+            <div class="right-content">
+                <div class="floating-elements">
+                    <div class="float-circle circle-1"></div>
+                    <div class="float-circle circle-2"></div>
+                    <div class="float-circle circle-3"></div>
+                </div>
+
+                <div class="card-showcase">
+                    <div class="card-container">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-logo">ГАЗПРОМБАНК</div>
+                                <div class="card-number">•••• •••• •••• 1234</div>
+                                <div class="card-bottom">
+                                    <div class="card-holder">Card Holder</div>
+                                    <div class="payment-system">МИР</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="benefits-section">
+        <div class="benefits-container">
+            <div class="benefits-row">
+                <div class="benefit-block">
+                    <div class="benefit-number">20%</div>
+                    <div class="benefit-text">кэшбэк в супермаркетах</div>
+                </div>
+                <div class="benefit-block">
+                    <div class="benefit-number">3 000</div>
+                    <div class="benefit-text">баллов за первые 3 месяца</div>
+                </div>
+                <div class="benefit-block">
+                    <div class="benefit-number">1 000</div>
+                    <div class="benefit-text">максимум баллов в месяц</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
